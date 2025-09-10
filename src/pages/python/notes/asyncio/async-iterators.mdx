@@ -1,0 +1,73 @@
+---
+import { Code } from 'astro:components';
+layout: ../../../../layouts/Post.astro
+title: 'How to Use Asynchronous Iterators'
+sectionNumber: 1
+chapterNumber: 4
+chapterName: 'Lesson 04: Iterators, Generators, and Context Managers'
+---
+## How to define an async iterator
+
+An async iterator is a an object that implements the methos <code class="inline">__aiter__()</code> and <code class="inline">__anext__()</code>.
+
+The <code class="inline">__aiter__()</code> method return the object itself.
+
+The <code class="inline">__anext__()</code> returns the next item.
+
+<ins>To stop iterating</ins>, ie signal there are no other items, the <code class="inline">StopAsyncIteration</code> exception should be raised.
+
+## How to traverse the iterator
+
+There are 3 ways to traverse an async itertor:
+1. <code class="inline">resutl = await anext(iterator)</code>: get the items one by one. The <code class="inline">anext</code> builtin coroutine runs the iterators' <code class="inline">__anext__()</code> method.
+1. <code class="inline">async for</code> syntax.
+1. async list comprehension: <code class="inline">all_items = [i async for i in iterator]</code>
+
+## Example
+This is an example of an iterator that behaves like the <code class="inline">range()</code> builtin function.
+
+```python
+class RangeLikeIterator:
+    def __init__(self, start: int, end: int, step: int = 1):
+        assert start <= end
+        self._current = start
+        self._end = end
+        self._step = step
+
+    def __aiter__(self):
+        return self
+
+    async def __anext__(self):
+        if self._current >= self._end:
+            raise StopAsyncIteration()
+        value = self._current
+        self._current += self._step
+        return value
+
+
+async def async_for():
+    """
+    Use the `async for` syntax.
+    """
+    async for i in RangeLikeIterator(1, 10):
+        print(i)
+
+
+async def await_anext():
+    """
+    Use the `anext` builtin coroutine.
+    It executes the iterators' __anext__() method.
+    """
+    try:
+        iterator = RangeLikeIterator(1, 10)
+        while True:
+            print(await anext(iterator))
+    except:
+        pass
+
+
+if __name__ == "__main__":
+    import asyncio
+
+    asyncio.run(await_anext())
+```

@@ -1,0 +1,52 @@
+---
+layout: ../../../../layouts/Post.astro
+title: 'How to Use Asyncio Tasks'
+sectionNumber: 3
+chapterNumber: 2
+chapterName: 'Lesson 02: Coroutines and Tasks'
+---
+
+## Check Task Status
+### Task done
+Call <code class="inline">task.done()</code> which returns a <code class="inline">bool</code>.
+
+A task is done when:
+- the coroutine finishes normally
+- explicit call to return
+- an exception occurs
+- the task is cancelled.
+
+### Task cancelled
+Call <code class="inline">task.cancelled()</code> which returns a <code class="inline">bool</code>.
+
+The task is cancelled:
+1. the <code class="inline">task.cancel()</code> method was called.
+1. it finished successfuly.
+
+## Get Tasks Result
+
+The result of a task can be retrieved with 
+1. <code class="inline">result = await task</code>
+1. <code class="inline">result = task.result()</code>
+
+In both cases, if the wrapped coroutine does not explicitly return a value, <code class="inline">result</code> will be <code class="inline">None</code>.
+
+Getting the result of a task when it is not yet done will raise an <code class="inline">asyncio.InvalidStateError</code> exception.
+
+It is an alias for <code class="inline">asyncio.exceptions.InvalidStateError</code>.
+
+### What happens when the task get cancelled
+
+If the task has already been cancelled when getting the result, an <code class="inline">asyncio.CancelledError</code> will be raised.
+
+It is an alias for <code class="inline">asyncio.exceptions.CancelledError</code>.
+
+### What happens when the wrapped coroutine raise an exception
+
+A coroutine wrapped by a task may raise an exception that is not handled.
+
+The exception will be raised again when getting the result.
+
+The <code class="inline">task.exception()</code> method is used to get the exception from a task.
+
+It will return <code class="inline">None</code> if not exception was raised.

@@ -1,0 +1,96 @@
+---
+layout: ../../../../layouts/Post.astro
+title: 'How to Create and Run Tasks'
+sectionNumber: 2
+chapterNumber: 2
+chapterName: 'Lesson 02: Coroutines and Tasks'
+---
+A task is the combination of a coroutine object and its future.
+
+Here are a some of the advantages of a task compared to a coroutine:
+- Query the status of a coroutine
+- Get the resutls of a coroutine
+- Cancel a coroutine
+
+All of this is done through the future.
+
+## What is an Asyncio Task
+
+An <code class="inline">asyncio.Task</code> is an object that schedules and independently runs an asyncio coroutine.
+
+A task is created from a coroutine. <ins>It requires a coroutine</ins>.
+
+It wraps a coroutine and provides a handle (aka future) that allows for interacting with the coroutine.
+
+A task is executed independently. This means it is scheduled in the asyncio event loop as soon as it is created.
+
+The <code class="inline">asyncio.Task</code> class extends the <code class="inline">asyncio.Future</code> class. 
+
+An instance of <code class="inline">asyncio.Task</code> is awaitable.
+
+## How to Create a Task
+
+A task can be created using the <code class="inline">asyncio.create_task()</code> function.
+
+It takes a coroutine instance, and an optional name, and returns a <code class="inline">asyncio.Task</code> instance.
+
+This call does the following:
+1. wrap the coroutine in a <code class="inline">Task</code> instance.
+1. schedule the task for execution in the event loop.
+1. return a <code class="inline">Task</code> instance.
+
+The task can be discarded, interacted with via methods, and awaited by a coroutine.
+
+There are other ways to create a <code class="inline">Task</code> through lower level APIs.
+
+The <code class="inline">asyncio.create_task()</code> is the API "guaranteed" to stay stable over time.
+
+## When Does the Task Run
+Although the coroutine is scheduled with the <code class="inline">asyncio.create_task()</code>, it will not run immediately. 
+
+In fact, the event loop will execute only when it has the opportunity. This will not happen until all other running coroutines are suspended.
+
+For example:
+```python
+import asyncio
+
+
+async def print_message(msg: str) -> None:
+    print(msg)
+
+
+async def main():
+    tasks = []
+    task = asyncio.create_task(print_message("task message"))
+
+    tasks.append(task)
+
+    print("main() message")
+    await asyncio.sleep(1)
+    print("main() message2")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+The output will be:
+```
+main() message
+task message
+main() message2
+```
+
+This is because the <code class="inline">main()</code> coroutine is not interrupted by the call to <code class="inline">print_message()</code>.
+
+It is, then, interrupted by the <code class="inline">await</code> expression. 
+
+Since there are no other running coroutines on the event loop, it will execute <code class="inline">print_message()</code>; and then continue with the <code class="inline">main()</code> coroutine.
+
+If <code class="inline">print("main() message")</code> is moved under <code class="inline">await asyncio.sleep(1)</code>, the output will be:
+```
+task message
+main() message
+main() message2
+```
+

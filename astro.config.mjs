@@ -5,7 +5,7 @@ import cloudflare from '@astrojs/cloudflare';
 
 import mdx from '@astrojs/mdx';
 
-import remarkCodeBlocks from 'remark-code-blocks';
+// import remarkCodeBlocks from 'remark-code-blocks';
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,7 +17,7 @@ export default defineConfig({
     imageService: "cloudflare"
   }),
   markdown: {
-    remarkPlugins: [remarkCodeBlocks],
+    // remarkPlugins: [remarkCodeBlocks],
   },
 
   integrations: [mdx()]

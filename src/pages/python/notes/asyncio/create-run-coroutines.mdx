@@ -1,0 +1,67 @@
+---
+layout: ../../../../layouts/Post.astro
+title: 'What are Coroutines'
+sectionNumber: 1
+chapterNumber: 2
+chapterName: 'Lesson 02: Coroutines and Tasks'
+---
+Python provides coroutines in one of two ways:
+- The <code class="inline">async</code> and <code class="inline">await</code> language additions.
+- The <code class="inline">asyncio</code> module.
+
+## How to Define a Coroutine
+
+A coroutine can be creted using the <code class="inline">async def</code> expression.
+
+It defines a coroutine that can be created and returns a coroutine object.
+
+```python
+async def custom_coro():
+    pass
+```
+
+A coroutine defined with the <code class="inline">async def</code> expression is called a <ins>coroutine function</ins>.
+
+It can take arguments and return a value, just as a regular function.
+
+It also can use special coroutine expressions such as <code class="inline">await</code>, <code class="inline">async with</code>, and <code class="inline">async for</code>.
+
+## How to Create a Coroutine
+
+Once a coroutine is defined is can be created, using the function call syntax.
+
+```python
+coro = custom_coro()
+```
+
+This does not execute the coroutine. It creates a coroutine object.
+
+A coroutine object has methods such <code class="inline">send()</code> and <code class="inline">close()</code>. It is a type.
+
+A coroutine object is <ins>awaitable</ins>. It implements the <code class="inline">__await__()</code> method.
+
+## How to Run a Coroutine
+
+Once a coroutine is defined and created, it can be executed only within an event loop.
+
+Typically, a coroutine is executed with <code class="inline">asyncio.run()</code>.
+
+This takes a coroutine object, executes it, and returns its value. It is typically the entry point for a coroutine based program.
+
+Coroutine objects can also be executed with the <code class="inline">await</code> keyword.
+
+```python
+# define a coroutine function.
+async def custom_coro() -> int:
+    print("I am a coroutine").
+    return 1
+
+# crete a coroutine object
+coro = custom_coro()
+
+# Await the object, which will execute it.
+result = await coro
+
+# This is typically done in a sungle line.
+result = await custom_coro()
+```

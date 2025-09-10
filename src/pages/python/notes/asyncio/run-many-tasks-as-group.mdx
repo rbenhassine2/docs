@@ -1,0 +1,64 @@
+---
+layout: ../../../../layouts/Post.astro
+title: 'How to Run Many Tasks as a Group'
+sectionNumber: 3
+chapterNumber: 3
+chapterName: 'Lesson 03: Collections of Tasks'
+---
+
+## asyncio.gather()
+
+The <code class="inline">asyncio.gather()</code> function allows the caller to group many awaitables together and have them executed concurrently.
+
+This function is used when there is a list of coroutines or tasks to be executed concurrently where each one's result is needed before giving back control to the caller.
+
+The function takes positional arguments, so a list has to be unpacked.
+
+The function returns a Future object. It can be interacted with the same as a Task object.
+
+Typically, the call is awaited though, as in: <code class="inline">results = await asyncio.gather(coro1,coro2)</code>.
+
+The gather future is considered done only when all of its awaitables are done.
+
+## asyncio.wait()
+
+The <code class="inline">asyncio.wait()</code> function allows the caller to wait on a collection awaitables to complete.
+
+The call takes a list of futures or tasks. It does not accept coroutines.
+
+It returns two futures one for done tasks the other of pending tasks.
+
+```python
+async def print_message(nbr: int) -> None:
+    for i in range(10):
+        print(f"task #{nbr:02d}, iteration #{i:02d}")
+        await asyncio.sleep(0.5)
+
+
+async def main():
+    tasks = [asyncio.create_task(print_message(i)) for i in range(30)]
+
+    await asyncio.wait(tasks)
+
+    print("main() message")
+```
+
+### Return condition
+The function can take a <code class="inline">timeout</code> argument that specifies th max number of seconds to wait before returning.
+
+It also can take a <code class="inline">return_when</code> argument that specifies a return condition. It can be one of these 3 values:
+1. <code class="inline">asyncio.FIRST_COMPLETED</code>: return when any of the futures finishes (including cancellation).
+1. <code class="inline">asyncio.FIRST_EXCEPTION</code>: return when any of the futures raises an exception. If no exceptions are raised, all futures will run to completion.
+1. <code class="inline">asyncio.ALL_COMPLETED</code>: return when all of the futures finish (including cencellation).
+
+## asyncio.as_completed()
+The <code class="inline">asyncio.as_completed()</code> function runs a collection of tasks and coroutines concurrently.
+
+It runs the tasks and/or coroutines concurrently and returns the results from them as they are done, instead of in the order in which they wre issued.
+
+```python
+for task in asyncio.as_completed(tasks):
+    result = await task
+```
+
+The loop will iterate over the tasks as they are completed.
