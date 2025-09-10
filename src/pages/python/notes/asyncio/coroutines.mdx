@@ -1,0 +1,49 @@
+---
+layout: ../../../../layouts/Post.astro
+title: 'What are Coroutines'
+chapter: 1
+section: 1
+---
+
+## Subroutines
+A subroutine is a function. It has the following characteristics:
+- It can be executed
+- It can, **optionally**, be given arguments. 
+- It can, **optionally**, return a value.
+- The execute starting at one point and finishing at another.
+
+## Coroutines
+Coroutines are a generalized form of subroutine.
+
+They have the same properties. But, differ in that **they can be paused and resumed before terminating**.
+
+<ins>Coroutines control when they are paused and resumed.</ins>
+
+They are used for concurrency, specifically cooperative multitasking.
+
+**Cooperative multitasking** is where the tasks themselves <ins>coordinate when to pause and resume work</ins>.
+
+**Preemtive multitasking** is the OS has control over what tasks (generally threads) to pause, resume and when to do so.
+
+## Coroutine vs Generator
+A generator is a special function that can interrup its own execution.
+
+A generator function use the <code class="inline">yield</code> expression to interrupt its execution and return a value.
+
+It will return a generator iterator that can be traversed, with a for loop for example.
+
+Each time it is called is will continue it execution from where it was previsouly paused until it gets the the next <code class="inline">yield</code> or <code class="inline">return</code>.
+
+## Coroutine vs Thread
+
+Each process has at least one thread, the main thread. 
+
+When a python script is executed, a new process is started with a main thread that will run the interpreter.
+
+The OS manages how threads are created, when they are paused, and which core executes them.
+
+They are represented as a <code class="inline">threading.Thread</code> object.
+
+Coroutines are represented as functions. This means they use less memory and are faster to create and start executing.
+
+They pause, resume and terminate themselves in coordination with other coroutines. Many coroutines can run on a single thread.

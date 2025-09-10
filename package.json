@@ -12,7 +12,9 @@
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "^12.6.7",
-		"astro": "^5.13.5"
+		"@astrojs/mdx": "^4.3.4",
+		"astro": "^5.13.5",
+		"remark-code-blocks": "^2.0.1"
 	},
 	"devDependencies": {
 		"@types/node": "^24.3.1",

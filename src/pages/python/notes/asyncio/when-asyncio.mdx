@@ -1,0 +1,47 @@
+---
+layout: ../../../../layouts/Post.astro
+title: 'What is Asynchronous Programming'
+chapter: 1
+section: 3
+---
+## What is Asynchronous
+
+Asynchronous means that the action is requested but not necessarily performed at the time of the request. It might be performed later.
+
+For example, making an asynchronous function call means that a request is issued to call the function. The caller will not wait around. It will continue executing. 
+
+It is possible to check the status of the action or its result ata later time.
+
+**Asynchronous Function Call:** Request that a function is called at some time and in some manner, allowing the caller to resume and perform other actions.
+
+The caller does not caller how or when the request is handled. It only signals that it would like for it to be handled (execute the function).
+
+Issuing an asynchronous function call often results in a handle, aka <ins>Future</ins>, that the caller can use to check the status of the request or get its result.
+
+**Future:** A handle on an asynchronous function call allowing the status of the call to be checked and its results to be retrieved.
+
+**Asynchronous Task:** Used to refer to the agregate of the asynchronous function call and the resulting future.
+
+Asynchronous tasks are more elaborate than the asynchronous function call because they allow things such as the request to be cancelled and more.
+
+**Asynchronous Programming:** The use of asynchronous techniques, such as issuing asynchronous tasks or function calls.
+
+## Asynchronous IO
+Asynchronous programming is primarily used with non-blocking IO such as reading/writing from socket connections with other processes or systems.
+
+Non-blocking IO is a way of performing IO where reads and writes are done asynchronously. The called does not wait for the operation to complete before returning. 
+
+**Asynchronous IO** is a shorthand that refers to the combination of asynchronous programming with non-blocking IO.
+
+## Asynchronous Programming in Python
+Broadly asynchronous programming in Python refers to making requests and not blocking to wait for them to complete.
+
+The obvious way to implement this in Python is the <code class="inline">asyncio</code> module.
+
+Python also offers threads and processes, both of which can be used to execute tasks asynchronously.
+
+It also offers <ins>Executor</ins>-based thread pools and process pools with the <code class="inline">ThreadPoolExecutor</code> and <code class="inline">ProcessPoolExecutor</code> classes.
+
+the <code class="inline">multiprocessing</code> module process the <code class="inline">ThreadPool</code> and <code class="inline">ProcessPool</code> classes.
+
+In conclusion, the <code class="inline">asyncio</code> module is only one option for asyncronous processing in Python.
